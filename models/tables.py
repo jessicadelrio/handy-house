@@ -51,20 +51,6 @@ db.define_table('reply',
                 Field('post_id', 'reference post'),
                 )
 
-db.define_table('house',
-                Field('house_name'),
-                )
-
-db.define_table('hmember',
-                Field('hmember_email', default=get_user_email()),
-                Field('house_id', 'reference house'),
-                )
-
-db.define_table('chore',
-                Field('chore_content', 'text'),
-                Field('house_id', 'reference house'),
-                )
-
 # Likes.
 db.define_table('user_like',
                 Field('user_email'), # The user who flagged
