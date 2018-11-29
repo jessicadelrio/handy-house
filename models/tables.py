@@ -22,6 +22,20 @@ def get_user_email():
 def get_current_time():
     return datetime.datetime.utcnow()
 
+db.define_table('house',
+                Field('house_name'),
+                )
+
+db.define_table('hmember',
+                Field('hmember_email', default=get_user_email()),
+                Field('house_id', 'reference house'),
+                )
+
+db.define_table('chore',
+                Field('chore_content', 'text'),
+                Field('house_id', 'reference house'),
+                )
+
 db.define_table('post',
                 Field('post_author', default=get_user_email()),
                 Field('post_title'),
