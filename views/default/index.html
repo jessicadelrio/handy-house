@@ -25,6 +25,8 @@
     // Authentication
     var current_user_email = "{{=None if auth.user is None else auth.user.email}}";
     var is_logged_in = {{='false' if auth.user is None else 'true'}};
+    
+    var add_house_url = "{{=URL('api', 'add_house', user_signature=True)}}";
 </script>
 {{end}}
 
@@ -36,13 +38,13 @@
 
       <!-- First, let's add a form to insert blog posts. -->
       <div v-show="show_form">
-          <div id="add_post" style="display:none">
+          <div id="add_house" style="">
             <div class="container form_row">
               <div class="label quarter">
                 Title:
               </div>
               <div class="form threequarters">
-                <input v-model="form_title" placeholder="Enter the post title"/>
+                <input v-model="form_title" placeholder="Enter the house name"/>
               </div>
             </div>
             <div class="container form_row">
@@ -52,11 +54,11 @@
               <div class="form threequarters">
                 <textarea v-model="form_content" placeholder="Enter the content of your post"></textarea>
               </div>
-            </div>
+            </div> 
             <div class="container form_row"><div class="quarter"></div>
               <div class="threequarters">
                 <div class="submit">
-                  <button id="add-post" v-on:click="add_post(); toggle_form()">Submit</button>
+                  <button id="add-house" v-on:click="add_house(); toggle_form()">Submit</button>
                 </div>
               </div>
             </div>

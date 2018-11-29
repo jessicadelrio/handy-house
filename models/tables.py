@@ -41,9 +41,9 @@ db.define_table('house',
                 Field('house_name'),
                 )
 
-db.define_table('member',
-                Field('member_email', default=get_user_email()),
-                Field('house_id', 'reference house',
+db.define_table('hmember',
+                Field('hmember_email', default=get_user_email()),
+                Field('house_id', 'reference house'),
                 )
 
 db.define_table('chore',

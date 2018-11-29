@@ -1,6 +1,5 @@
 # Here go your api methods.
 
-
 @auth.requires_signature()
 def add_post():
     post_id = db.post.insert(
@@ -142,3 +141,15 @@ def set_like():
     else:
         db((db.user_like.post_id == post_id) & (db.user_like.user_email == auth.user.email)).delete()
     return "ok" # Might be useful in debugging.
+    
+@auth.requires_signature()
+def add_house():
+    house_id = db.house.insert(
+        house_name=request.vars.house_name,
+    )
+    # We return the id of the new post, so we can insert it along all the others.
+    return response.json(dict(house_id=house_id))
+    
+    
+    
+    

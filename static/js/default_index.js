@@ -247,6 +247,28 @@ var app = function() {
             thumb: p.thumb
         }); // Nothing to do upon completion.
     };
+    
+    self.add_house = function () {
+        var sent_name = self.vue.form_title; // Makes a copy 
+        $.web2py.disableElement($("#add-house"));
+        $.post(add_house_url,
+            // Data we are sending.
+            {
+                house_name: self.vue.form_title,
+            },
+            // What do we do when the post succeeds?
+            function (data) {
+            	$.web2py.enableElement($("#add-house"));
+                // Clears the form.
+                self.vue.form_title = "";
+                // Adds the post to the list of posts. 
+                var new_house = {
+                    id: data.house_id,
+                    house_name: sent_name,
+                };
+            });
+        // If you put code here, it is run BEFORE the call comes back.
+    };
 
 
     // Complete as needed.
@@ -284,6 +306,8 @@ var app = function() {
 
             edit_reply: self.edit_reply,
             end_edit_reply: self.end_edit_reply,
+            
+            add_house: self.add_house,
 
         }
 
