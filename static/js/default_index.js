@@ -137,6 +137,41 @@ var app = function() {
         );
         console.log("I fired the reply get");
     };
+    //getting the chore list
+    self.get_chore_list = function(post_idx) {
+        var post_id = self.vue.post_list[post_idx].id
+
+        $.getJSON(get_chore_list_url,
+            {
+                post_id: post_id
+            },
+            function(data) {
+                // I am assuming here that the server gives me a nice list
+                // of replies, all ready for display.
+                console.log("reply_list: ", data.chore_list)
+                self.vue.chore_list = data.chore_list;
+                // Post-processing.
+                self.process_chores();
+                console.log("I got my reply list");
+            }
+        );
+        console.log("I fired the reply get");
+    };
+
+//    self.process_chores = function() {
+//        // This function is used to post-process posts, after the list has been modified
+//        // or after we have gotten new posts.
+//        // We add the _idx attribute to the posts.
+//        enumerate(self.vue.chore_list);
+//        // We initialize the smile status to match the like.
+//        self.vue.chore_list.map(function (e) {
+//            // I need to use Vue.set here, because I am adding a new watched attribute
+//            // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
+//             Vue.set(e, 'editing_chore', false);
+//        });
+//    };
+
+
 
     self.process_replies = function() {
         // This function is used to post-process posts, after the list has been modified
@@ -308,6 +343,7 @@ var app = function() {
             end_edit_reply: self.end_edit_reply,
             
             add_house: self.add_house,
+            get_chore_list: self.get_chore_list
 
         }
 

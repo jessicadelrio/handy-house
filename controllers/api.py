@@ -149,7 +149,39 @@ def add_house():
     )
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(house_id=house_id))
-    
+
+def get_chore_list():
+    results = []
+    post_id = request.vars.house_id
+
+    if auth.user is None:
+        # Not logged in. Should the chore have a reply_time?
+        rows = db(db.chore.post_id == post_id).select(db.chore.ALL, orderby=~db.chore.chore_time)
+        # rows = db().select(db.reply.ALL, orderby=~db.reply.reply_time)
+
+        for row in rows:
+            results.append(dict(
+                id=row.id,
+                chore_content=row.chore_content,
+                post_id=row.post_id
+
+            ))
+    else:
+        # Logged in.
+        rows = db(db.chore.post_id == post_id).select(db.chore.ALL,
+                            orderby=~db.chore.chore_time)
+        # rows = db().select(db.reply.ALL, orderby=~db.reply.reply_time)
+        for row in rows:
+            print(row)
+            results.append(dict(
+                id=row.id,
+
+                chore_content=row.chore_content,
+
+                post_id=row.post_id
+            ))
+    # For homogeneity, we always return a dictionary.
+    return response.json(dict(chore_list=results))
     
     
     

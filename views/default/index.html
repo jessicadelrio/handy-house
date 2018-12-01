@@ -27,6 +27,7 @@
     var is_logged_in = {{='false' if auth.user is None else 'true'}};
     
     var add_house_url = "{{=URL('api', 'add_house', user_signature=True)}}";
+    var get_chore_list_url = "{{=URL('api', 'get_chore_list')}}";
 </script>
 {{end}}
 
