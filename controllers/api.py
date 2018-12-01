@@ -58,14 +58,13 @@ def edit_post():
 
 # Replies
 @auth.requires_signature()
-def add_reply():
-    reply_id = db.reply.insert(
-        reply_title=request.vars.reply_title,
-        reply_content=request.vars.reply_content,
-        post_id=request.vars.post_id
+def add_chore():
+    chore_id = db.chore.insert(
+        chore_content=request.vars.reply_content,
+        house_id=request.vars.house_id
     )
     # We return the id of the new post, so we can insert it along all the others.
-    return response.json(dict(reply_id=reply_id))
+    return response.json(dict(chore_id=chore_id))
 
 
 def get_reply_list():

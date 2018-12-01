@@ -83,37 +83,33 @@ var app = function() {
         });
     };
 
-    self.add_reply = function (post_idx) {
+    self.add_chore = function (post_idx) {
         // We disable the button, to prevent double submission.
-        $.web2py.disableElement($("#add-reply"));
-        var sent_reply_title = self.vue.reply_form_title; // Makes a copy
-        var sent_reply_content = self.vue.reply_form_content; //
-        var post_id = self.vue.post_list[post_idx].id
-        $.post(add_reply_url,
+        $.web2py.disableElement($("#add-chore"));
+        var sent_chore_content = self.vue.reply_form_content; //
+        var house_id = self.vue.house_id;
+        $.post(add_house_url,
             // Data we are sending.
             {
-                reply_title: self.vue.reply_form_title,
-                reply_content: self.vue.reply_form_content,
-                post_id: post_id
+                chore_content: self.vue.reply_form_content,
+                house_id: house_id
             },
             // What do we do when the post succeeds?
             function (data) {
                 // Re-enable the button.
                 $.web2py.enableElement($("#add-reply"));
                 // Clears the form.
-                self.vue.reply_form_title = "";
                 self.vue.reply_form_content = "";
                 // Adds the post to the list of posts.
-                var new_reply = {
-                    id: data.reply_id,
-                    reply_author: current_user_email,
-                    reply_title: sent_reply_title,
-                    reply_content: sent_reply_content,
-                    post_id: post_id
+                var new_chore = {
+                    id: data.chore_id,
+                    chore_content: sent_reply_content,
+                    house_id: house_id
                 };
-                self.vue.reply_list.unshift(new_reply);
+                //self.vue.reply_list.unshift(new_reply);
                 // We re-enumerate the array.
-                self.process_replies();
+                
+                //self.process_chores();
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
