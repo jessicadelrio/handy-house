@@ -146,7 +146,7 @@ var app = function() {
         // We initialize the smile status to match the like.
         self.vue.reply_list.map(function (e) {
             // I need to use Vue.set here, because I am adding a new watched attribute
-            // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
+            // to an object.  See https://vuejs.org/v2/guide/list.html#Ovar post_id = self.vue.post_list[post_idx].idbject-Change-Detection-Caveats
              Vue.set(e, 'editing_reply', false);
         });
     };
@@ -255,6 +255,7 @@ var app = function() {
             // Data we are sending.
             {
                 house_name: self.vue.form_title,
+                hmember_email: current_user_email
             },
             // What do we do when the post succeeds?
             function (data) {
@@ -270,6 +271,22 @@ var app = function() {
         // If you put code here, it is run BEFORE the call comes back.
     };
 
+    self.get_house = function() {
+        $.getJSON(get_house_url,
+
+            function(data) {
+                // I am assuming here that the server gives me a nice list
+                // of posts, all ready for display.
+                console.log("house_list: ", data.house_list)
+                self.vue.house_list = data.house_list;
+                // Post-processing.
+//                self.process_posts(); I dont think we need this for a single house
+                console.log("I got my list");
+            }
+        );
+        console.log("I fired the get");
+    };
+
 
     // Complete as needed.
     self.vue = new Vue({
@@ -283,6 +300,7 @@ var app = function() {
             reply_form_title: "",
             reply_form_content: "",
             reply_list: [],
+            house_list: [],
             show_form: false,
         },
         methods: {
@@ -308,6 +326,7 @@ var app = function() {
             end_edit_reply: self.end_edit_reply,
             
             add_house: self.add_house,
+            get_house: self.get_house,
 
         }
 
@@ -321,7 +340,7 @@ var app = function() {
     }
 
     // Gets the posts.
-    self.get_posts();
+//    self.get_posts();
 
     return self;
 };
