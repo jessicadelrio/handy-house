@@ -150,6 +150,15 @@ def add_house():
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(house_id=house_id))
     
+@auth.requires_signature()
+def add_hmember():
+    hmember_id = db.hmember.insert(
+        hmember_email=auth.user.email,
+        house_id=request.vars.house_id,
+    )
+    # We return the id of the new post, so we can insert it along all the others.
+    return response.json(dict(hmember_id=hmember_id))
+    
     
     
     

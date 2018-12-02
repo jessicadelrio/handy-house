@@ -269,6 +269,24 @@ var app = function() {
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
+    
+	 self.add_hmember = function (house_idx) {
+        var house_id = self.vue.get_house[house_idx].id
+        $.post(add_hmember_url,
+            // Data we are sending.
+            {
+                house_id: house_id
+            },
+            // What do we do when the post succeeds?
+            function (data) {
+                var new_hmember = {
+                    id: data.hmember_id,
+                    hmember_email: current_user_email,
+                    house_id: house_id
+                };
+            });
+        // If you put code here, it is run BEFORE the call comes back.
+    };
 
 
     // Complete as needed.
@@ -308,6 +326,7 @@ var app = function() {
             end_edit_reply: self.end_edit_reply,
             
             add_house: self.add_house,
+            add_memeber: self.add_member,
 
         }
 
