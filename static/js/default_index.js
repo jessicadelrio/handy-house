@@ -138,15 +138,20 @@ var app = function() {
         );
         console.log("I fired the reply get");
     };
+    
     self.add_chore = function () {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-chore"));
-        var sent_chore_content = self.vue.chore_form_content; //
+        var sent_chore_content = self.vue.chore_form_content;
+        var sent_chore_assigneduser = self.vue.chore_form_assigneduser;
+        var sent_chore_duedate = self.vue.chore_form_duedate;
         var house_id = self.vue.house_list[0].house_id;
         $.post(add_chore_url,
             // Data we are sending.
             {
                 chore_content: self.vue.chore_form_content,
+                chore_assigneduser: self.vue.chore_form_assigneduser,
+                chore_duedate: self.vue.chore_form_duedate,
                 house_id: house_id
             },
             // What do we do when the post succeeds?
@@ -159,6 +164,8 @@ var app = function() {
                 var new_chore = {
                     id: data.chore_id,
                     chore_content: sent_chore_content,
+                    chore_assigneduser: sent_chore_form_assigneduser,
+                    chore_duedate: sent_chore_form_duedate,
                     house_id: house_id,
                     chore_author: current_user_email,
                 };
@@ -169,6 +176,7 @@ var app = function() {
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
+    
     self.add_hmember = function () {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-hmember"));
@@ -199,6 +207,7 @@ var app = function() {
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
+    
     self.process_hmembers = function() {
         // This function is used to post-process posts, after the list has been modified
         // or after we have gotten new posts.
@@ -211,6 +220,7 @@ var app = function() {
              //Vue.set(e, 'editing_chore', false);
         });
     };
+    
     //getting the chore list
     self.get_chore_list = function(houseid) {
         var house_id = houseid;
@@ -244,8 +254,6 @@ var app = function() {
              Vue.set(e, 'editing_chore', false);
         });
     };
-
-
 
     self.process_replies = function() {
         // This function is used to post-process posts, after the list has been modified
@@ -331,7 +339,6 @@ var app = function() {
         self.submit_edit_reply(reply_idx);
     };
 
-
     // Thumb change code.
     self.thumb_mouseout = function (post_idx) {
         var p = self.vue.post_list[post_idx];
@@ -357,7 +364,7 @@ var app = function() {
         }); // Nothing to do upon completion.
     };
     
-   self.add_house = function () {
+    self.add_house = function () {
         var sent_name = self.vue.form_title; // Makes a copy
         $.web2py.disableElement($("#add-house"));
         $.post(add_house_url,
@@ -379,7 +386,8 @@ var app = function() {
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
-     self.get_house = function() {
+    
+    self.get_house = function() {
         $.getJSON(get_house_url,
 
             function(data) {
@@ -396,6 +404,32 @@ var app = function() {
             }
         );
         console.log("I fired the get");
+    };
+    
+    self.edit_chore = function (choreid) {
+        var r = self.vue.chore_list[choreid];
+        r.editing_chore = true;
+    }
+    
+    self.submit_edit_chore = function (choreid) {
+        var r = self.vue.chore_list[choreid];
+        // Starts the spinner.
+        $.post(edit_chore_url,
+            {
+                chore_id: r.id,
+                chore_content: r.chore_content,
+                chore_assigneduser: r.chore_assigneduser,
+                chore_duedate: r.chore_duedate
+            },
+         );
+        // Not here, the self.vue.title_save_pending = false;
+    };
+
+    self.end_edit_chore = function (choreid) {
+        var r = self.vue.chore_list[choreid];
+        r.editing_chore = false;
+        // We send the title.
+        self.submit_edit_chore(choreid);
     };
 
 //     self.process_house = function() {
@@ -433,6 +467,8 @@ var app = function() {
             reply_form_title: "",
             reply_form_content: "",
             chore_form_content: "",
+            chore_form_assigneduser: "",
+            chore_form_duedate: "",
             hmember_form_content:"",
             reply_list: [],
             show_form: false,
@@ -471,7 +507,10 @@ var app = function() {
             get_chore_list: self.get_chore_list,
             add_chore: self.add_chore,
             get_house: self.get_house,
-            add_hmember: self.add_hmember
+            add_hmember: self.add_hmember,
+            
+            edit_chore: self.edit_chore,
+            end_edit_chore: self.end_edit_chore
         }
 
     });

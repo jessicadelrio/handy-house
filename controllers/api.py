@@ -157,6 +157,8 @@ def add_house():
 def add_chore():
     chore_id = db.chore.insert(
         chore_content=request.vars.chore_content,
+        chore_assigneduser=request.vars.chore_assigneduser,
+        chore_duedate=request.vars.chore_duedate,
         house_id=request.vars.house_id,
         chore_author=auth.user.email
 
@@ -190,6 +192,8 @@ def get_chore_list():
                 id=chore.id,
                 house_id=chore.house_id,
                 chore_content=chore.chore_content,
+                chore_assigneduser=chore.chore_assigneduser,
+                chore_duedate=chore.chore_duedate,
                 chore_author=chore.chore_author
             ))
 
@@ -263,3 +267,12 @@ def add_hmember():
     )
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(hmember_id=hmember_id))
+    
+@auth.requires_signature()
+def edit_chore():
+    chore_id = int(request.vars.chore_id)
+    db.chore.update_or_insert(
+        (db.chore.id == chore_id) & (db.chore.chore_author == auth.user.email),
+        chore_content=request.vars.chore_content,
+    )
+    return "ok" # Might be useful in debugging.
