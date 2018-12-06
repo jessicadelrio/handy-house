@@ -31,3 +31,39 @@ div.main_content i.changed {
 div.main_content span.likers_list {
   color: #7777cc;
 }
+
+div.main_content span.likers_list {
+  color: #7777cc;
+}
+
+header.black.padded {
+    background-color: darkcyan;
+}
+
+.house_id {
+    font-family: fantasy;
+    font-size: 200%;
+    text-align: center;
+}
+.all_chore{
+    padding: 9%;
+    
+    background-image: url(notepad.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    max-width: 66%;
+    height:70%;
+    width: auto;
+    overflow: hidden;
+}
+.add{
+    margin-bottom: 3%;
+    margin-left: -5%;
+    
+}
+
+.add_member_button{
+   
+    margin-top: 5%;
+    float:right;
+}

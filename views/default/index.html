@@ -70,31 +70,9 @@
 
       <div v-if="house_list.length === 0">You are not in a house. Please sign in to see if you are in one or make a new house</div>
       <div class="house_div" v-for="house in house_list">
-          <div class="house_id">Welcome to the ${house.house_name} House!!!</div>
+          <div class="house_id">Welcome to the ${house.house_name} House</div>
       </div>
-      <div v-if="chore_list.length === 0 && house_list.length > 0">There's no chores. Add new chores. </div>
-
-      <div v-show="chore_form">
-          <div id="add_chore" style="">
-            <div class="container form_row">
-              <div class="label quarter">
-                Content:
-              </div>
-              <div class="form threequarters">
-                <input v-model="chore_form_content" placeholder="Enter a chore"/>
-              </div>
-            </div>
-            <div class="container form_row"><div class="quarter"></div>
-              <div class="threequarters">
-                <div class="submit">
-                  <button id="add-chore" v-on:click="add_chore();toggle_chore()">Submit</button>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-         <button v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()">Add Chore</button>
-
+         <div class="add_member_button">
          <div v-show="hmember_form">
           <div id="add_hmember" style="">
             <div class="container form_row">
@@ -114,19 +92,49 @@
             </div>
           </div>
         </div>
-         <button v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form" v-on:click="toggle_hmember()">Add House Member</button>
+         <button  v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form" v-on:click="toggle_hmember()">Add House Member</button>
+        </div>
+   <div class="all_chore">
+       <div class="chore_content">
+      <div v-show="chore_form">
+          <div id="add_chore" style="">
+            <div class="container form_row">
+              <div class="label quarter">
+                Content:
+              </div>
+              <div class="form threequarters">
+                <input v-model="chore_form_content" placeholder="Enter a chore"/>
+              </div>
+            </div>
+            <div class="container form_row"><div class="quarter"></div>
+              <div class="threequarters">
+                <div class="submit">
+                  <button id="add-chore"  v-on:click="add_chore();toggle_chore()">Submit</button>
+                </div>
+              </div>
+            </div>  
+          </div>
+      </div>
+        <div class ="add">
+         <i class ="fa fa-plus" v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()"></i>
+</div>
+        
 
-
+        <div v-if="chore_list.length === 0 && house_list.length > 0"> . . . </div>
+        
          <div class="chore_div" v-for="chore in chore_list">
             <div v-show="!chore.editing_chore">
                 <div class="chore_content">${chore.chore_content}</div>
-                <button v-if="chore.chore_author == current_user_email" v-on:click="">Edit Post</button>
+                <button class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click=""></button>
             </div>
             <div v-show="chore.editing_chore">
                 <textarea v-model="chore.chore_content"></textarea>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="">Submit</button>
             </div>
          </div>
+           </div>
+    </div>
+   
 
       <!-- We display the posts. -->
       <!--<div id="post_list">-->
