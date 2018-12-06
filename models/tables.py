@@ -32,8 +32,12 @@ db.define_table('hmember',
                 )
 
 db.define_table('chore',
+                Field('chore_author', default=get_user_email()),
                 Field('chore_content', 'text'),
                 Field('house_id', 'reference house'),
+                Field('chore_time', 'datetime', default=get_current_time()),
+                Field('chore_duedate', 'text'),
+                Field('chore_assigneduser', 'text'),
                 )
 
 db.define_table('post',
