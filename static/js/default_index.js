@@ -383,6 +383,8 @@ var app = function() {
                     id: data.house_id,
                     house_name: sent_name,
                 };
+
+                self.get_house();
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
@@ -517,7 +519,7 @@ var app = function() {
 
     // If we are logged in, shows the form to add posts.
     if (is_logged_in) {
-        $("#add_post").show();
+        $("#add_house").show();
         self.get_house();
 
     }
