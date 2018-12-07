@@ -78,45 +78,9 @@
       <div class="house_div" v-for="house in house_list">
           <div class="house_id">Welcome to the ${house.house_name} House</div>
       </div>
-      <div v-if="chore_list.length === 0 && house_list.length > 0">There's no chores. Add new chores. </div>
 
-      <div v-show="chore_form">
-          <div id="add_chore" style="">
-            <div class="container form_row">
-              <div class="label quarter">
-                Content:
-              </div>
-              <div class="form">
-                <input v-model="chore_form_content" placeholder="Enter a chore"/>
-              </div>
-            </div>
-            <div class="container form_row">
-              <div class="label quarter">
-                Assigned User:
-              </div>
-              <div class="form">
-                <input v-model="chore_form_assigneduser" placeholder="Enter the email of the user that this chore is assigned to"/>
-              </div>
-            </div>
-				<div class="container form_row">
-              <div class="label quarter">
-                Due Date:
-              </div>
-              <div class="form">
-                <input v-model="chore_form_duedate" placeholder="Enter the due date for this chore mm-dd-yy"/>
-              </div>
-            </div>
-            <div class="container form_row"><div class="quarter"></div>
-              <div class="threequarters">
-                <div class="submit">
-                  <button id="add-chore" v-on:click="add_chore();toggle_chore()">Submit</button>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-         <button v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()">Add Chore</button>
-
+     
+<div class="house">
          <div class="add_member_button">
          <div v-show="hmember_form">
           <div id="add_hmember" style="">
@@ -139,41 +103,86 @@
         </div>
          <button  v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form" v-on:click="toggle_hmember()">Add House Member</button>
         </div>
+        <div class="members_list">
+            <div class="hmember_div" v-for="hmember in hmember_list">
+            <div class="hmember_email">${hmember.hmember_email}            <i class="fa fa-remove" v-on:click="delete_hmember(hmember._idx)"></i>
+            </div>
+         </div>
+        </div>
+    
+</div>
 
    <div class="all_chore">
+       
         <div class="chore_title"> &nbsp;  </div>
         <div class ="add">
-         <i class ="fa fa-plus" style=" font-size: 150%; margin-left:20%;" v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()"></i>
+         <i class ="fa fa-plus" style="border-width: 2px;
+    border-style: outset; font-size: 150%; margin-left:20%;" v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()"></i>
         </div>
        
        
        
 <!--        <div class="chore_content">
             <div class="add_chore"> -->
-      
+      <div class="add_chore">
 
         <div v-if="chore_list.length === 0 && house_list.length > 0"> . . . </div>
         
          <div class="chore_div" v-for="chore in chore_list">
             <div v-show="!chore.editing_chore">
-                <div class="chore_content">${chore.chore_content}</div>
+                <div class="chore_content">-${chore.chore_content}</div>
                 <div class="chore_assigneduser">${chore.chore_assigneduser}</div>
                 <div class="chore_duedate">${chore.chore_duedate}</div>
-                <button v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)">Edit Chore</button>
+                <i style ="margin-top: -7%; float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i>
             </div>
             <div v-show="chore.editing_chore">
-                <textarea v-model="chore.chore_content"></textarea>
-                <textarea v-model="chore.chore_assigneduser"></textarea>
-                <textarea v-model="chore.chore_duedate"></textarea>
+                <textarea v-model="chore.chore_content" placeholder="Content:"></textarea>
+                <textarea v-model="chore.chore_assigneduser"placeholder="Assigned to:"></textarea>
+                <textarea v-model="chore.chore_duedate"placeholder="Due date:(mm-dd-yy)"></textarea>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="end_edit_chore(chore._idx)">Submit</button>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="delete_chore(chore._idx)">Delete</button>
             </div>
          </div>
-      
-         <div class="hmember_div" v-for="hmember in hmember_list">
-            <div class="hmember_email">${hmember.hmember_email}</div>
-            <button v-on:click="delete_hmember(hmember._idx)">Delete</button>
-         </div>
+          
+          
+       </div>
+       <div class="cform" v-show="chore_form">
+          <div id="add_chore" >
+            <div class="container form_row">
+              <div class="label quarter">
+          
+              </div>
+              <div class="form">
+                <input v-model="chore_form_content" placeholder="Enter a chore"/>
+              </div>
+            </div>
+            <div class="container form_row">
+              <div class="label quarter">
+             
+              </div>
+              <div class="form">
+                <input v-model="chore_form_assigneduser" placeholder="Enter the email of the user that this chore is assigned to"/>
+              </div>
+            </div>
+				<div class="container form_row">
+              <div class="label quarter">
+               
+              </div>
+              <div class="form">
+                <input v-model="chore_form_duedate" placeholder="Enter the due date for this chore mm-dd-yy"/>
+              </div>
+            </div>
+            <div class="container form_row"><div class="quarter"></div>
+              <div class="threequarters">
+                <div class="submit">
+                  <button id="add-chore" v-on:click="add_chore();toggle_chore()">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    
+         
 
       <!-- We display the posts. -->
       <!--<div id="post_list">-->
@@ -261,6 +270,8 @@
 
         <!--</div>-->
       <!--</div>-->
+        </div>
+        
 
     </div>
 
