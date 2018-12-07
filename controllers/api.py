@@ -263,7 +263,6 @@ def add_hmember():
     hmember_id = db.hmember.insert(
         hmember_email=request.vars.hmember_email,
         house_id=request.vars.house_id,
-
     )
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(hmember_id=hmember_id))
@@ -274,5 +273,7 @@ def edit_chore():
     db.chore.update_or_insert(
         (db.chore.id == chore_id) & (db.chore.chore_author == auth.user.email),
         chore_content=request.vars.chore_content,
+        chore_assigneduser=request.vars.chore_assigneduser,
+        chore_duedate=request.vars.chore_duedate
     )
     return "ok" # Might be useful in debugging.

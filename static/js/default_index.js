@@ -164,8 +164,8 @@ var app = function() {
                 var new_chore = {
                     id: data.chore_id,
                     chore_content: sent_chore_content,
-                    chore_assigneduser: sent_chore_form_assigneduser,
-                    chore_duedate: sent_chore_form_duedate,
+                    chore_assigneduser: sent_chore_assigneduser,
+                    chore_duedate: sent_chore_duedate,
                     house_id: house_id,
                     chore_author: current_user_email,
                 };
@@ -173,6 +173,8 @@ var app = function() {
                 // We re-enumerate the array.
 
                 self.process_chores();
+                self.get_chore_list(house_id);
+
             });
         // If you put code here, it is run BEFORE the call comes back.
     };
@@ -391,7 +393,6 @@ var app = function() {
     
     self.get_house = function() {
         $.getJSON(get_house_url,
-
             function(data) {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
