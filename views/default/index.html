@@ -31,8 +31,11 @@
     var get_house_url = "{{=URL('api', 'get_house')}}";
     var add_chore_url = "{{=URL('api', 'add_chore', user_signature=True)}}";
     var add_hmember_url = "{{=URL('api', 'add_hmember', user_signature=True)}}";
+    var get_hmember_list_url = "{{=URL('api', 'get_hmember_list')}}";
     
     var edit_chore_url = "{{=URL('api', 'edit_chore', user_signature=True)}}";
+    var delete_chore_url =  "{{=URL('api', 'delete_chore', user_signature=True)}}";
+    var delete_hmember_url =  "{{=URL('api', 'delete_hmember', user_signature=True)}}";
 
 </script>
 {{end}}
@@ -148,7 +151,13 @@
                 <textarea v-model="chore.chore_assigneduser"></textarea>
                 <textarea v-model="chore.chore_duedate"></textarea>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="end_edit_chore(chore._idx)">Submit</button>
+                <button v-if="chore.chore_author == current_user_email" v-on:click="delete_chore(chore._idx)">Delete</button>
             </div>
+         </div>
+      
+         <div class="hmember_div" v-for="hmember in hmember_list">
+            <div class="hmember_email">${hmember.hmember_email}</div>
+            <button v-on:click="delete_hmember(hmember._idx)">Delete</button>
          </div>
 
       <!-- We display the posts. -->
