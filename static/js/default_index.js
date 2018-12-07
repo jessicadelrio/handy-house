@@ -402,6 +402,7 @@ var app = function() {
                 // Post-processing.
                 if(data.house_list.length!==0){
                     self.get_chore_list(data.house_list[0].house_id);
+                    self.get_hmember_list(self.vue.house_list[0].house_id);
                 }
 
             }
@@ -433,6 +434,71 @@ var app = function() {
         r.editing_chore = false;
         // We send the title.
         self.submit_edit_chore(choreid);
+    };
+    
+    self.delete_chore = function (choreid) {
+    	var r = self.vue.chore_list[choreid];
+    	var house_id = self.vue.house_list[0].house_id;
+    	$.post(delete_chore_url,
+         {
+            chore_id: r.id,
+            chore_content: r.chore_content,
+            chore_assigneduser: r.chore_assigneduser,
+            chore_duedate: r.chore_duedate,
+         },
+         function(data){
+         	self.get_chore_list(house_id);
+         });
+      
+    };
+    
+    self.delete_hmember = function (hmemberid) {
+    	var r = self.vue.hmember_list[hmemberid];
+    	var house_id = self.vue.house_list[0].house_id;
+    	$.post(delete_hmember_url,
+         {
+            hmember_id: r.id,
+            hmember_house: r.hmember_house,
+            hmember_email: r.hmember_email,
+
+         },
+         function(data){
+         	self.get_hmember_list(house_id);
+         	self.get_house();
+         }
+      );
+    };
+    
+    self.process_hmembers = function() {
+        // This function is used to post-process posts, after the list has been modified
+        // or after we have gotten new posts.
+        // We add the _idx attribute to the posts.
+        enumerate(self.vue.hmember_list);
+        // We initialize the smile status to match the like.
+        self.vue.hmember_list.map(function (e) {
+            // I need to use Vue.set here, because I am adding a new watched attribute
+            // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
+        });
+    };
+    
+    self.get_hmember_list = function(houseid) {
+        var house_id = houseid;
+
+        $.getJSON(get_hmember_list_url,
+            {
+                house_id: house_id
+            },
+            function(data) {
+                // I am assuming here that the server gives me a nice list
+                // of replies, all ready for display.
+                console.log("hmember_list: ", data.hmember_list)
+                self.vue.hmember_list = data.hmember_list;
+                // Post-processing.
+                self.process_hmembers();
+                console.log("I got my hmember list");
+            }
+        );
+        console.log("I fired the hmember get");
     };
 
 //     self.process_house = function() {
@@ -511,15 +577,19 @@ var app = function() {
             add_chore: self.add_chore,
             get_house: self.get_house,
             add_hmember: self.add_hmember,
+            delete_hmember: self.delete_hmember,
+            get_hmember_list: self.get_hmember_list,
             
             edit_chore: self.edit_chore,
-            end_edit_chore: self.end_edit_chore
+            end_edit_chore: self.end_edit_chore,
+            delete_chore: self.delete_chore,
         }
 
     });
 
     // If we are logged in, shows the form to add posts.
     if (is_logged_in) {
+
         $("#add_house").show();
         self.get_house();
 

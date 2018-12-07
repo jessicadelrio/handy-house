@@ -277,3 +277,37 @@ def edit_chore():
         chore_duedate=request.vars.chore_duedate
     )
     return "ok" # Might be useful in debugging.
+    
+@auth.requires_signature()
+def delete_chore():
+    chore_id = int(request.vars.chore_id)
+    db((db.chore.id == chore_id)).delete()
+    return "ok" # Might be useful in debugging.
+    
+@auth.requires_signature()
+def delete_hmember():
+    hmember_id = int(request.vars.hmember_id)
+    db((db.hmember.id == hmember_id)).delete()
+    return "ok" # Might be useful in debugging.
+
+def get_hmember_list():
+    thehmembers = []
+    thehouse_id = request.vars.house_id
+
+    if auth.user is None:
+        print "hi"
+    else:
+        # Logged in.
+        hmembers = db(db.hmember.house_id == thehouse_id).select(db.hmember.ALL,
+                            orderby=~db.hmember.id)
+        for hmember in hmembers:
+            thehmembers.append(dict(
+                id=hmember.id,
+                house_id=hmember.house_id,
+                hmember_email=hmember.hmember_email,
+            ))
+
+    # For homogeneity, we always return a dictionary.
+    return response.json(dict(hmember_list=thehmembers))
+
+
