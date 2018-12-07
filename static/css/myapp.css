@@ -37,33 +37,86 @@ div.main_content span.likers_list {
 }
 
 header.black.padded {
-    background-color: darkcyan;
+    background-color: #f1f1f1;
 }
-
+header a{
+    color:black;
+}
 .house_id {
     font-family: fantasy;
     font-size: 200%;
     text-align: center;
 }
-.all_chore{
-    padding: 9%;
+.chore_div{
     
+    
+}
+.all_chore{
+    
+    padding: 4%;
     background-image: url(notepad.jpg);
     background-size: contain;
     background-repeat: no-repeat;
-    max-width: 66%;
-    height:70%;
-    width: auto;
+    max-width: 60%;
+    margin-left: -3%;
+    height:100%;
+    width: 50%  ;
     overflow: hidden;
 }
 .add{
-    margin-bottom: 3%;
-    margin-left: -5%;
+    margin-bottom: 2%;
+    margin-top: -12%;
+    margin-left: 8%;
+    width: 10%;
+    border-width: 2px;
+    border-style: outset;
+}
+.chore_content{
+    padding-left:2%;
+    padding-top:2%;
+    font-size: 2.5vw;
+    font-family: monospace;
+}
+.chore_title{
+    background-repeat: no-repeat;
+    margin-top: 9%;
+    height:6vw;
+    width: 45vw;
+    margin-left: 23%;
+    background-size: contain;
+    background-image: url(Chore_title.jpg);
     
 }
-
+.add_chore{
+    
+    margin-top: 0%;
+    margin-left: 4%;
+    height: 25.5vw;
+    overflow-y: scroll;
+    width: 93%;
+ 
+}
 .add_member_button{
-   
+    
     margin-top: 5%;
+    float:right;
+}
+.submit{
+    font-size: 5%;
+    margin-left:30%;
+    margin-top: -2%;
+}
+.form{
+height:4vw;
+width:37vw;
+margin-top:-4%;
+margin-left:-1%;    
+}
+
+.btn{
+    background-color: darkslategrey;
+}
+.edit{
+    margin-right:3%;
     float:right;
 }
