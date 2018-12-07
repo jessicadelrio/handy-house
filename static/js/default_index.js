@@ -160,6 +160,8 @@ var app = function() {
                 $.web2py.enableElement($("#add-chore"));
                 // Clears the form.
                 self.vue.chore_form_content = "";
+                self.vue.chore_form_assigneduser = "";
+                self.vue.chore_form_duedate = "";
                 // Adds the post to the list of posts.
                 var new_chore = {
                     id: data.chore_id,
