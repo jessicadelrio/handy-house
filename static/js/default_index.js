@@ -463,8 +463,10 @@ var app = function() {
 
          },
          function(data){
-         	self.get_hmember_list(house_id);
          	self.get_house();
+         	console.log("chore list:",self.vue.chore_list);
+         	self.vue.chore_list = [];
+         	self.vue.hmember_list = [];
          }
       );
     };
