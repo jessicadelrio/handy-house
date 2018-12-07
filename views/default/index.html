@@ -30,6 +30,7 @@
     var get_chore_list_url = "{{=URL('api', 'get_chore_list')}}";
     var get_house_url = "{{=URL('api', 'get_house')}}";
     var add_chore_url = "{{=URL('api', 'add_chore', user_signature=True)}}";
+    var is_in_house_url = "{{=URL('api', 'is_in_house')}}";
     var add_hmember_url = "{{=URL('api', 'add_hmember', user_signature=True)}}";
     var get_hmember_list_url = "{{=URL('api', 'get_hmember_list')}}";
     
@@ -130,7 +131,7 @@
             <div class="container form_row"><div class="quarter"></div>
               <div class="threequarters">
                 <div class="submit">
-                  <button id="add-hmember" v-on:click="add_hmember();toggle_hmember()">Submit</button>
+                  <button id="add-hmember" v-on:click="is_in_house()">Submit</button>
                 </div>
               </div>
             </div>

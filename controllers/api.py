@@ -258,6 +258,22 @@ def get_house():
     # For homogeneity, we always return a dictionary.
     return response.json(dict(house_list=themembers))
 
+def is_in_house():
+    themember = []
+    checkmember = request.vars.hmember_email
+    if auth.user is None:
+        # do nothing
+        print "You're not signed in"
+    else:
+        memberinfo = db(db.hmember.hmember_email == checkmember).select()
+        for member in memberinfo:
+            themember.append(dict(
+                hmember_email=member.hmember_email,
+            ))
+    # For homogeneity, we always return a dictionary.
+    return response.json(dict(check_member=themember))
+	
+
 @auth.requires_signature()
 def add_hmember():
     hmember_id = db.hmember.insert(
