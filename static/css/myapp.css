@@ -107,6 +107,7 @@ header a{
     float:right;
 }
 .members_list{
+    width: 30%;
     margin-top: 10%;
     float:right;
     margin-right:-10%;
