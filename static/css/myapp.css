@@ -43,7 +43,8 @@ header a{
     color:black;
 }
 .house_id {
-    font-family: fantasy;
+    font-family: impact;
+    font-weight: bold;
     font-size: 200%;
     text-align: center;
 }
