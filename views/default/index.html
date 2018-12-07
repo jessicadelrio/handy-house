@@ -130,9 +130,9 @@
         
          <div class="chore_div" v-for="chore in chore_list">
             <div class="chore" v-show="!chore.editing_chore">
-                <div class="chore_content">&nbsp;${chore.chore_content}<i style ="margin-top:0%; float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i></div>
-                <div class="chore_assigneduser">${chore.chore_assigneduser}</div>
-                <div class="chore_duedate">${chore.chore_duedate}</div>
+                <div class="chore_content">${chore.chore_content}&nbsp;<i style ="margin-top:0%; float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i></div>
+                <div style="color: darkgray;" class="chore_assigneduser">${chore.chore_assigneduser}</div>
+                <div style="color: darkgray;"class="chore_duedate">${chore.chore_duedate}</div>
                 
             </div>
             <div v-show="chore.editing_chore">
