@@ -75,6 +75,7 @@ header a{
     padding-top:2%;
     font-size: 2.5vw;
     font-family: monospace;
+    border-bottom: 1px solid gray;
 }
 .chore_title{
     background-repeat: no-repeat;

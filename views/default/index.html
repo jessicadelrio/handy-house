@@ -80,7 +80,7 @@
       </div>
 
      
-
+<div class="house">
          <div class="add_member_button">
          <div v-show="hmember_form">
           <div id="add_hmember" style="">
@@ -104,10 +104,12 @@
          <button  v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form" v-on:click="toggle_hmember()">Add House Member</button>
         </div>
         <div class="members_list">
-<div class="hmember_div" v-for="hmember in hmember_list">
-            <div class="hmember_email">${hmember.hmember_email}</div>
-            <button v-on:click="delete_hmember(hmember._idx)">Delete</button>
+            <div class="hmember_div" v-for="hmember in hmember_list">
+            <div class="hmember_email">${hmember.hmember_email}            <i class="fa fa-remove" v-on:click="delete_hmember(hmember._idx)"></i>
+            </div>
          </div>
+        </div>
+    
 </div>
 
    <div class="all_chore">
@@ -131,12 +133,12 @@
                 <div class="chore_content">-${chore.chore_content}</div>
                 <div class="chore_assigneduser">${chore.chore_assigneduser}</div>
                 <div class="chore_duedate">${chore.chore_duedate}</div>
-                <i style ="float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i>
+                <i style ="margin-top: -7%; float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i>
             </div>
             <div v-show="chore.editing_chore">
-                <textarea v-model="chore.chore_content"></textarea>
-                <textarea v-model="chore.chore_assigneduser"></textarea>
-                <textarea v-model="chore.chore_duedate"></textarea>
+                <textarea v-model="chore.chore_content" placeholder="Content:"></textarea>
+                <textarea v-model="chore.chore_assigneduser"placeholder="Assigned to:"></textarea>
+                <textarea v-model="chore.chore_duedate"placeholder="Due date:(mm-dd-yy)"></textarea>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="end_edit_chore(chore._idx)">Submit</button>
                 <button v-if="chore.chore_author == current_user_email" v-on:click="delete_chore(chore._idx)">Delete</button>
             </div>
