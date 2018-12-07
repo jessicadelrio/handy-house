@@ -179,10 +179,35 @@ var app = function() {
         // If you put code here, it is run BEFORE the call comes back.
     };
     
+    self.is_in_house = function () {
+        var sent_hmember_content = self.vue.hmember_form_content; 
+      
+        $.getJSON(is_in_house_url,
+            {
+                hmember_email: self.vue.hmember_form_content,
+            },
+            function(data) {
+                // I am assuming here that the server gives me a nice list
+                // of replies, all ready for display.
+               
+                self.vue.check_member = data.check_member;
+                console.log("tell me the json", self.vue.check_member);
+                if(self.vue.check_member.length!==0){
+                   	alert("This user is already in a house!");
+                }
+                else{
+                	  self.add_hmember();
+                }
+                // Post-processing.
+            }
+        );
+        console.log("tell me the json", self.vue.check_member);
+    };
+    
     self.add_hmember = function () {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-hmember"));
-        var sent_hmember_content = self.vue.hmember_form_content; //
+        var sent_hmember_content = self.vue.hmember_form_content; 
         var house_id = self.vue.house_list[0].house_id;
         $.post(add_hmember_url,
             // Data we are sending.
@@ -535,6 +560,7 @@ var app = function() {
             house_list:[],
             chore_list:[],
             hmember_list:[],
+            check_member:[],
             reply_form_title: "",
             reply_form_content: "",
             chore_form_content: "",
@@ -585,6 +611,7 @@ var app = function() {
             edit_chore: self.edit_chore,
             end_edit_chore: self.end_edit_chore,
             delete_chore: self.delete_chore,
+            is_in_house: self.is_in_house,
         }
 
     });
