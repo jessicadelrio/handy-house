@@ -38,6 +38,7 @@
     var delete_chore_url =  "{{=URL('api', 'delete_chore', user_signature=True)}}";
     var delete_hmember_url =  "{{=URL('api', 'delete_hmember', user_signature=True)}}";
 
+
 </script>
 {{end}}
 
@@ -45,234 +46,165 @@
 
 
     <div id="vue-div" class="display:none">
-      <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
 
-      <!-- First, let's add a form to insert blog posts. -->
-      <div v-show="show_form">
-          <div id="add_house" style="">
-            <div class="container form_row">
-              <div class="label quarter">
-                Title:
-              </div>
-              <div class="form threequarters">
-                <input v-model="form_title" placeholder="Enter the house name"/>
-              </div>
-            </div>
-            <div class="container form_row"><div class="quarter"></div>
-              <div class="threequarters">
-                <div class="submit">
-                  <button id="add-house" v-on:click="add_house();toggle_form();">Submit</button>
+        <!-- First, let's add a form to insert blog posts. -->
+        <div v-show="show_form">
+            <div id="add_house" style="">
+                <div class="container form_row">
+                    <div class="label quarter">
+                        Title:
+                    </div>
+                    <div class="form threequarters">
+                        <input v-model="form_title" placeholder="Enter the house name"/>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-      </div>
-
-      <button v-if="is_logged_in&&house_list.length === 0" v-show="!show_form" v-on:click="toggle_form()">Add a new House</button>
-
-
-
-      <!-- Message in case there are no posts. -->
-
-
-      <div v-if="house_list.length === 0">You are not in a house. Please sign in to see if you are in one or make a new house</div>
-      <div class="house_div" v-for="house in house_list">
-          <div class="house_id">Welcome to the ${house.house_name} House</div>
-      </div>
-
-     
-<div class="house">
-         <div class="add_member_button">
-         <div v-show="hmember_form">
-          <div id="add_hmember" style="">
-            <div class="container form_row">
-              <div class="label quarter">
-                Add User's email:
-              </div>
-              <div class="form threequarters">
-                <input v-model="hmember_form_content" placeholder="Enter a user's email"/>
-              </div>
-            </div>
-            <div class="container form_row"><div class="quarter"></div>
-              <div class="threequarters">
-                <div class="submit">
-                  <button id="add-hmember" v-on:click="toggle_hmember(); is_in_house()">Submit</button>
+                <div class="container form_row">
+                    <div class="quarter"></div>
+                    <div class="threequarters">
+                        <div class="submit">
+                            <button id="add-house" v-on:click="add_house();toggle_form();">Submit</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-         <button  v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form" v-on:click="toggle_hmember()">Add House Member</button>
-        </div>
-        <div class="members_list">
-            <div class="hmember_div" v-for="hmember in hmember_list">
-            <div class="hmember_email">${hmember.hmember_email}            <i style="float:right;"class="fa fa-remove" v-on:click="delete_hmember(hmember._idx)"></i>
-            </div>
-         </div>
-        </div>
-    
-</div>
 
-   <div class="all_chore">
-       
-        <div class="chore_title"> &nbsp;  </div>
-        <div class ="add">
-         <i class ="fa fa-plus" style="border-width: 2px;
-    border-style: outset; font-size: 150%; margin-left:20%;" v-if="is_logged_in&&house_list.length !== 0" v-show="!chore_form" v-on:click="toggle_chore()"></i>
-        </div>
-       
-       
-       
-<!--        <div class="chore_content">
-            <div class="add_chore"> -->
-      <div class="add_chore">
+        <button v-if="is_logged_in&&house_list.length === 0" v-show="!show_form" v-on:click="toggle_form()">Add a new
+            House
+        </button>
 
-        <div v-if="chore_list.length === 0 && house_list.length > 0"> . . . </div>
-        
-         <div class="chore_div" v-for="chore in chore_list">
-            <div class="chore" v-show="!chore.editing_chore">
-                <div class="chore_content">${chore.chore_content}&nbsp;<i style ="margin-top:0%; float:right;border-width: 2px;border-style: outset;"class="fa fa-pencil" v-if="chore.chore_author == current_user_email" v-on:click="edit_chore(chore._idx)"></i></div>
-                <div style="color: darkgray;" class="chore_assigneduser">${chore.chore_assigneduser}</div>
-                <div style="color: darkgray;"class="chore_duedate">${chore.chore_duedate}</div>
-                
-            </div>
-            <div v-show="chore.editing_chore">
-                <textarea v-model="chore.chore_content" placeholder="Content:"></textarea>
-                <textarea v-model="chore.chore_assigneduser"placeholder="Assigned to:"></textarea>
-                <textarea v-model="chore.chore_duedate"placeholder="Due date:(mm-dd-yy)"></textarea>
-                <button v-if="chore.chore_author == current_user_email" v-on:click="end_edit_chore(chore._idx)">Submit</button>
-                <button v-if="chore.chore_author == current_user_email" v-on:click="delete_chore(chore._idx)">Delete</button>
-            </div>
-         </div>
-          
-          
-       </div>
-       <div class="cform" v-show="chore_form">
-          <div id="add_chore" >
-            <div class="container form_row">
-              <div class="label quarter">
-          
-              </div>
-              <div class="form">
-                <input v-model="chore_form_content" placeholder="Enter a chore"/>
-              </div>
-            </div>
-            <div class="container form_row">
-              <div class="label quarter">
-             
-              </div>
-              <div class="form">
-                <input v-model="chore_form_assigneduser" placeholder="Enter the email of the user that this chore is assigned to"/>
-              </div>
-            </div>
-				<div class="container form_row">
-              <div class="label quarter">
-               
-              </div>
-              <div class="form">
-                <input v-model="chore_form_duedate" placeholder="Enter the due date for this chore mm-dd-yy"/>
-              </div>
-            </div>
-            <div class="container form_row"><div class="quarter"></div>
-              <div class="threequarters">
-                <div class="submit">
-                  <button id="add-chore" v-on:click="add_chore();toggle_chore()">Submit</button>
+
+        <!-- Message in case there are no posts. -->
+
+
+        <div v-if="house_list.length === 0">You are not in a house. Please sign in to see if you are in one or make a
+            new house
+        </div>
+        <div class="house_div" v-for="house in house_list">
+            <div class="house_id">Welcome to the ${house.house_name} House</div>
+        </div>
+
+
+        <div class="house">
+            <div class="add_member_button">
+                <div v-show="hmember_form">
+                    <div id="add_hmember" style="">
+                        <div class="container form_row">
+                            <div class="label quarter">
+                                Add User's email:
+                            </div>
+                            <div class="form threequarters">
+                                <input v-model="hmember_form_content" placeholder="Enter a user's email"/>
+                            </div>
+                        </div>
+                        <div class="container form_row">
+                            <div class="quarter"></div>
+                            <div class="threequarters">
+                                <div class="submit">
+                                    <button id="add-hmember" v-on:click="toggle_hmember(); is_in_house()">Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <button v-if="is_logged_in&&house_list.length !== 0" v-show="!hmember_form"
+                        v-on:click="toggle_hmember()">Add House Member
+                </button>
             </div>
-          </div>
-      </div>
-    
-         
+            <div class="members_list">
+                <div class="hmember_div" v-for="hmember in hmember_list">
+                    <div class="hmember_email">${hmember.hmember_email} <i style="float:right;" class="fa fa-remove"
+                                                                           v-on:click="delete_hmember(hmember._idx)"></i>
+                    </div>
+                </div>
+            </div>
 
-      <!-- We display the posts. -->
-      <!--<div id="post_list">-->
-        <!--<div class="post_div" v-for="post in post_list">-->
-            <!--<div v-show="!post.editing">-->
-                <!--<div class="post_title">${post.post_title}</div>-->
-                <!--<div class="post_content">${post.post_content}</div>-->
-                <!--<button v-if="post.post_author == current_user_email" v-on:click="edit_post(post._idx)">Edit Post</button>-->
-            <!--</div>-->
-            <!--<div v-show="post.editing">-->
-                <!--<textarea v-model="post.post_title"></textarea>-->
-                <!--<textarea v-model="post.post_content"></textarea>-->
-                <!--<button v-if="post.post_author == current_user_email" v-on:click="end_edit_post(post._idx)">Submit</button>-->
-            <!--</div>-->
-
-          <!--&lt;!&ndash;<div class="attributes">&ndash;&gt;-->
-
-            <!--&lt;!&ndash;&lt;!&ndash; Code for Thumbs. &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="thumbs">&ndash;&gt;-->
-                <!--&lt;!&ndash;<span v-if="is_logged_in" class="thumbs_up"&ndash;&gt;-->
-                      <!--&lt;!&ndash;v-on:mouseout="thumb_mouseout(post._idx)">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span v-on:mouseover="thumb_mouseover(post._idx, 'u')"&ndash;&gt;-->
-                          <!--&lt;!&ndash;v-on:click="thumb_click(post._idx, 'u')">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<i v-if="post._current_thumb == 'u'" class="fa fa-thumbs-up" v-bind:class="{changed: post._current_thumb != post.thumb && post._current_thumb != 'd'}"></i>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<i v-if="post._current_thumb != 'u'" class="fa fa-thumbs-o-up" v-bind:class="{changed: post._current_thumb != post.thumb && post._current_thumb == 'u'}"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span v-if="is_logged_in" class="thumbs_down"&ndash;&gt;-->
-                      <!--&lt;!&ndash;v-on:mouseout="thumb_mouseout(post._idx)">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span v-on:mouseover="thumb_mouseover(post._idx, 'd')"&ndash;&gt;-->
-                          <!--&lt;!&ndash;v-on:click="thumb_click(post._idx, 'd')">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<i v-if="post._current_thumb == 'd'" class="fa fa-thumbs-down" v-bind:class="{changed: post._current_thumb != post.thumb && post._current_thumb != 'u'}"></i>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<i v-if="post._current_thumb != 'd'" class="fa fa-thumbs-o-down" v-bind:class="{changed: post._current_thumb != post.thumb && post._current_thumb == 'd'}"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;</span>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--<div v-show="!post.show_replies">-->
-                <!--<button v-on:click="show_replies(post._idx)">Show Replies</button>-->
-            <!--</div>-->
-            <!--<div v-show="post.show_replies">-->
-                <!--<button v-on:click="show_replies(post._idx)">Hide Replies</button>-->
-
-              <!--<div v-show="post.show_reply_form" id="add_reply">-->
-                <!--<div class="container form_row">-->
-                  <!--<div class="label quarter">-->
-                    <!--Title:-->
-                  <!--</div>-->
-                  <!--<div class="form threequarters">-->
-                    <!--<input v-model="reply_form_title" placeholder="Enter the reply title"/>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="container form_row">-->
-                  <!--<div class="label quarter">-->
-                    <!--Content:-->
-                  <!--</div>-->
-                  <!--<div class="form threequarters">-->
-                    <!--<textarea v-model="reply_form_content" placeholder="Enter the content of your reply"></textarea>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="container form_row"><div class="quarter"></div>-->
-                  <!--<div class="threequarters">-->
-                    <!--<div class="submit">-->
-                      <!--<button id="add-reply" v-on:click="add_reply(post._idx); show_reply_form(post._idx)">Submit Reply</button>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-                <!--<button v-if="is_logged_in" v-show="!post.show_reply_form" v-on:click="show_reply_form(post._idx)">Add Reply</button>-->
-
-                <!--<div class="reply_div" v-for="reply in reply_list">-->
-                    <!--<div v-show="!reply.editing_reply">-->
-                        <!--<div class="reply_title">${reply.reply_title}</div>-->
-                        <!--<div class="reply_content">${reply.reply_content}</div>-->
-                        <!--<button v-if="reply.reply_author == current_user_email" v-on:click="edit_reply(reply._idx)">Edit Reply</button>-->
-                    <!--</div>-->
-                    <!--<div v-show="reply.editing_reply">-->
-                        <!--<textarea v-model="reply.reply_title"></textarea>-->
-                        <!--<textarea v-model="reply.reply_content"></textarea>-->
-                        <!--<button v-if="reply.reply_author == current_user_email" v-on:click="end_edit_reply(reply._idx)">Submit</button>-->
-                    <!--</div><br>-->
-                <!--</div>-->
-            <!--</div>-->
-
-        <!--</div>-->
-      <!--</div>-->
         </div>
-        
+
+        <div class="all_chore">
+
+            <div class="chore_title"> &nbsp;</div>
+            <div class="add">
+                <i class="fa fa-plus" style="border-width: 2px;
+    border-style: outset; font-size: 150%; margin-left:20%;" v-if="is_logged_in&&house_list.length !== 0"
+                   v-show="!chore_form" v-on:click="toggle_chore()"></i>
+            </div>
+
+
+            <!--        <div class="chore_content">
+                        <div class="add_chore"> -->
+            <div class="add_chore">
+
+                <div v-if="chore_list.length === 0 && house_list.length > 0"> . . .</div>
+
+                <div class="chore_div" v-for="chore in chore_list">
+                    <div class="chore" v-show="!chore.editing_chore">
+                        <div class="chore_content">${chore.chore_content}&nbsp;<i
+                                style="margin-top:0%; float:right;border-width: 2px;border-style: outset;"
+                                class="fa fa-pencil" v-if="chore.chore_author == current_user_email"
+                                v-on:click="edit_chore(chore._idx)"></i></div>
+                        <div style="color: darkgray;" class="chore_assigneduser">${chore.chore_assigneduser}</div>
+                        <div style="color: darkgray;" class="chore_duedate">${chore.chore_duedate}</div>
+
+                    </div>
+                    <div v-show="chore.editing_chore">
+                        <textarea v-model="chore.chore_content" placeholder="Content:"></textarea>
+                        <textarea v-model="chore.chore_assigneduser" placeholder="Assigned to:"></textarea>
+                        <textarea v-model="chore.chore_duedate" placeholder="Due date:(mm-dd-yy)"></textarea>
+                        <button v-if="chore.chore_author == current_user_email" v-on:click="end_edit_chore(chore._idx)">
+                            Submit
+                        </button>
+                        <button v-if="chore.chore_author == current_user_email" v-on:click="delete_chore(chore._idx)">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="cform" v-show="chore_form">
+                <div id="add_chore">
+                    <div class="container form_row">
+                        <div class="label quarter">
+
+                        </div>
+                        <div class="form">
+                            <input v-model="chore_form_content" placeholder="Enter a chore"/>
+                        </div>
+                    </div>
+                    <div class="container form_row">
+                        <div class="label quarter">
+
+                        </div>
+                        <div class="form">
+                            <input v-model="chore_form_assigneduser"
+                                   placeholder="Enter the email of the user that this chore is assigned to"/>
+                        </div>
+                    </div>
+                    <div class="container form_row">
+                        <div class="label quarter">
+
+                        </div>
+                        <div class="form">
+                            <input v-model="chore_form_duedate"
+                                   placeholder="Enter the due date for this chore mm-dd-yy"/>
+                        </div>
+                    </div>
+                    <div class="container form_row">
+                        <div class="quarter"></div>
+                        <div class="threequarters">
+                            <div class="submit">
+                                <button id="add-chore" v-on:click="add_chore();toggle_chore()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+
 
     </div>
 
